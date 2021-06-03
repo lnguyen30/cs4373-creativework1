@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site":"dankhackermansles1pt2lvn",
+    "site":"",
     "public": "public",
     "ignore": [
       "firebase.json",
