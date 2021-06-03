@@ -1,0 +1,40 @@
+.my-banner{
+    width: 100%;
+    font-size: 200%;
+    text-align: center;
+    color: white;
+    background-color: navy;
+}
+
+input {
+    display: block;
+    margin: 8px 0;
+    padding: 8px 2px;
+    border-width: 0 0 2px 0;
+    width: 100%
+}
+
+li{
+    padding-right: 10px;
+}
+
+.modal-menus-pre-auth{
+    display: block;
+}
+
+.modal-menus-post-auth{
+    display: none;
+}
+
+textarea{
+    width: 95%;
+    min-height: 150px;
+}
+
+.form-create-thread-error{
+    color: red;
+}
+
+.create-account-error{
+    color:red; 
+}
