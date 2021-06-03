@@ -119,16 +119,22 @@ export function addViewFormSubmitEvent(form){
     })
 }
 
-
+//builds replies for threads
 function buildReplyView(reply){
     return `
-        <div class="border border-primary">
-            <div class="bg-info text-white">
+        <div class="card border border-primary">
+            <div class="card-header bg-info text-white">
                 Replied by ${reply.email} (At ${new Date(reply.timestamp).toString()})
             </div>
-            ${reply.content}
+                <div class="card-body">
+                <p class="card-text"> ${reply.content} </p>
+                <form class="form-delete-reply" method="post">
+                    <input type="hidden" name="docId" value=${reply.docId}>
+                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                </form>
+            </div>
         </div>
-        <hr>
+        <br>
     `;
 }
 /* 1. get thread from Firestore by ID 
