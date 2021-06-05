@@ -117,6 +117,27 @@ export function addViewFormSubmitEvent(form){
         Util.enableButton(button, label);
 
     })
+     
+    // STOPPED HERE
+    //event listener for deleting reply
+    const deleteReplies = document.getElementsByClassName('form-delete-reply');
+    for( let i = 0; i<deleteReplies.length; i++){
+        deleteReplies[i].addEventListener('submit', async e =>{
+            //prevents page from reloading
+            e.preventDefault();
+            //retrieves button label value
+            const button = e.target.getElementsByTagName('button')[0];
+            //temporarily disables button
+            const label = Util.disableButton(button);
+
+            // passes docId value from reply form to deleteReply firebase fucnction
+            await FirebaseController.deleteReply(e.target.docId.value);
+           
+            //re-enables button
+            Util.enableButton(button, label);
+        })
+    }
+
 }
 
 //builds replies for threads
@@ -142,3 +163,9 @@ function buildReplyView(reply){
 3. dipslay it to the thread
 4. display all reply messages
 5. add a form for a new reply */
+
+// 1. render delete reply button
+// 2. event listener for delete reply button
+// 3. firebase cloud function in controller 
+// 4. client side 
+// 5. render on thread page
