@@ -92,3 +92,9 @@ export async function searchThreads(keywordsArray){
 export async function createAccount(email, password){
     await firebase.auth().createUserWithEmailAndPassword(email,password);
 }
+
+//prototype delete function to firebase
+export async function deleteReply(docId){
+
+    console.log(docId);
+}

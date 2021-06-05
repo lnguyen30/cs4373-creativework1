@@ -129,6 +129,17 @@ export function addViewFormSubmitEvent(form){
             const button = e.target.getElementsByTagName('button')[0];
             //temporarily disables button
             const label = Util.disableButton(button);
+
+            // passes docId value from reply form to deleteReply firebase fucnction
+            try{
+                await FirebaseController.deleteReply(e.target.docId.value);
+            }catch(e){
+                if (Const.DEV) console.log(e);
+                Util.info('Error', JSON.stringify(e));
+            }
+
+            //re-enables button
+            Util.enableButton(button, label);
         })
     }
 
