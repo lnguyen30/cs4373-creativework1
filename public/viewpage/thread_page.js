@@ -155,6 +155,7 @@ export function addDeleteEventListeners(deleteform){
 
         Util.enableButton(button, label);
 
+        // whenever new reply is made, delete reply event listener is added to new replies
         const deleteRepliesForm = document.getElementsByClassName('form-delete-reply');
         addDeleteEventListeners(deleteRepliesForm);
 
@@ -192,6 +193,7 @@ export function addDeleteEventListeners(deleteform){
     //     })
     // }
 
+    //each time the thread page is rendered, delete replies event listeners are added to each replies
     const deleteRepliesForm = document.getElementsByClassName('form-delete-reply');
     addDeleteEventListeners(deleteRepliesForm);
     
