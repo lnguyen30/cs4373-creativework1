@@ -163,35 +163,6 @@ export function addDeleteEventListeners(deleteform){
 
     
      
-    //event listener for deleting reply
-    // const deleteReplies = document.getElementsByClassName('form-delete-reply');
-    // for( let i = 0; i<deleteReplies.length; i++){
-    //     deleteReplies[i].addEventListener('submit', async e =>{
-    //         //prevents page from reloading
-    //         e.preventDefault();
-            
-    //         //retrieves button label value
-    //         const button = e.target.getElementsByTagName('button')[0];
-    //         //temporarily disables button
-    //         const label = Util.disableButton(button);
-
-    //         try{
-    //         // passes docId value from reply form to deleteReply firebase fucnction
-    //         await FirebaseController.deleteReply(e.target.docId.value);
-    //         //removes the reply by the id from the reply card
-    //         const deleteTag = document.getElementById('card-'+ e.target.docId.value);
-    //         deleteTag.remove();
-
-    //         Util.info('Reply Deleted');
-    //         }catch(e){
-    //             if(Const.DEV) console.log(e);
-    //             Util.info('Delete Reply Error', JSON.stringify(e))
-    //         }
-           
-    //         //re-enables button
-    //         Util.enableButton(button, label);
-    //     })
-    // }
 
     //each time the thread page is rendered, delete replies event listeners are added to each replies
     const deleteRepliesForm = document.getElementsByClassName('form-delete-reply');
