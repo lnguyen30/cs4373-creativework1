@@ -95,9 +95,7 @@ export async function createAccount(email, password){
 
 //prototype delete function to firebase
 export async function deleteReply(docId){
-
     console.log(docId);
     
-    //await firebase.firestore().collection(Constant.collections.REPLIES).doc(docId).delete();
-    
+    await firebase.firestore().collection(Constant.collectionNames.REPLIES).doc(docId).delete();
 }

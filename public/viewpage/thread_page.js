@@ -29,6 +29,39 @@ export function addViewFormSubmitEvent(form){
     })
 }
 
+
+// event listener function to delete replies
+export function addDeleteEventListeners(deleteform){
+
+    for( let i = 0; i<deleteform.length; i++){
+        deleteform[i].addEventListener('submit', async e =>{
+            //prevents page from reloading
+            e.preventDefault();
+            //retrieves button label value
+            const button = e.target.getElementsByTagName('button')[0];
+            //temporarily disables button
+            const label = Util.disableButton(button);
+
+            try{
+            // passes docId value from reply form to deleteReply firebase fucnction
+            await FirebaseController.deleteReply(e.target.docId.value);
+            //removes the reply by the id from the reply card
+            const deleteTag = document.getElementById('card-'+ e.target.docId.value);
+            deleteTag.remove();
+
+            Util.info('Success', 'Reply Delete');
+            }catch(e){
+                if(Const.DEV) console.log(e);
+                Util.info('Delete Reply Error', JSON.stringify(e))
+            }
+           
+            //re-enables button
+            Util.enableButton(button, label);
+        })
+    }
+
+}
+
  export async function thread_page(threadId){
     if(!Auth.currentUser){
         Element.root.innerHTML = '<h1>Protected Page</h1>'
@@ -101,6 +134,9 @@ export function addViewFormSubmitEvent(form){
 
         try{
             const docId = await FirebaseController.addReply(reply);
+            // const deleteRepliesForm = document.getElementsByClassName('form-delete-reply');
+            // addDeleteEventListeners(deleteRepliesForm);
+
             reply.docId = docId;
         }catch(e){
             if (Const.DEV) console.log(e);
@@ -109,6 +145,9 @@ export function addViewFormSubmitEvent(form){
 
         const replyTag = document.createElement('div')
         replyTag.innerHTML = buildReplyView(reply) // builds reply box
+
+        
+
         //apends new replies at the bottom of each reply
         document.getElementById('message-reply-body').appendChild(replyTag)
         //clears reply box
@@ -116,34 +155,54 @@ export function addViewFormSubmitEvent(form){
 
         Util.enableButton(button, label);
 
-    })
-     
-    // STOPPED HERE
-    //event listener for deleting reply
-    const deleteReplies = document.getElementsByClassName('form-delete-reply');
-    for( let i = 0; i<deleteReplies.length; i++){
-        deleteReplies[i].addEventListener('submit', async e =>{
-            //prevents page from reloading
-            e.preventDefault();
-            //retrieves button label value
-            const button = e.target.getElementsByTagName('button')[0];
-            //temporarily disables button
-            const label = Util.disableButton(button);
+        const deleteRepliesForm = document.getElementsByClassName('form-delete-reply');
+        addDeleteEventListeners(deleteRepliesForm);
 
-            // passes docId value from reply form to deleteReply firebase fucnction
-            await FirebaseController.deleteReply(e.target.docId.value);
+    })
+
+    
+     
+    //event listener for deleting reply
+    // const deleteReplies = document.getElementsByClassName('form-delete-reply');
+    // for( let i = 0; i<deleteReplies.length; i++){
+    //     deleteReplies[i].addEventListener('submit', async e =>{
+    //         //prevents page from reloading
+    //         e.preventDefault();
+            
+    //         //retrieves button label value
+    //         const button = e.target.getElementsByTagName('button')[0];
+    //         //temporarily disables button
+    //         const label = Util.disableButton(button);
+
+    //         try{
+    //         // passes docId value from reply form to deleteReply firebase fucnction
+    //         await FirebaseController.deleteReply(e.target.docId.value);
+    //         //removes the reply by the id from the reply card
+    //         const deleteTag = document.getElementById('card-'+ e.target.docId.value);
+    //         deleteTag.remove();
+
+    //         Util.info('Reply Deleted');
+    //         }catch(e){
+    //             if(Const.DEV) console.log(e);
+    //             Util.info('Delete Reply Error', JSON.stringify(e))
+    //         }
            
-            //re-enables button
-            Util.enableButton(button, label);
-        })
-    }
+    //         //re-enables button
+    //         Util.enableButton(button, label);
+    //     })
+    // }
+
+    const deleteRepliesForm = document.getElementsByClassName('form-delete-reply');
+    addDeleteEventListeners(deleteRepliesForm);
+    
 
 }
 
+// add <input type="hidden" name="uid" value=${reply.uid}> to compare current user to reply's uid?
 //builds replies for threads
 function buildReplyView(reply){
     return `
-        <div class="card border border-primary">
+        <div id="card-${reply.docId}" class="card border border-primary">
             <div class="card-header bg-info text-white">
                 Replied by ${reply.email} (At ${new Date(reply.timestamp).toString()})
             </div>
@@ -151,12 +210,13 @@ function buildReplyView(reply){
                 <p class="card-text"> ${reply.content} </p>
                 <form class="form-delete-reply" method="post">
                     <input type="hidden" name="docId" value=${reply.docId}>
-                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                    <button class="btn btn-outline-danger" type="post">Delete</button>
                 </form>
             </div>
         </div>
         <br>
     `;
+
 }
 /* 1. get thread from Firestore by ID 
 2. get all replies to this thread
