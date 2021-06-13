@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site":"",
+    "site":"ratjamcreativework1lvn",
     "public": "public",
     "ignore": [
       "firebase.json",
